@@ -1,0 +1,45 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: url("../img/poudlard.jpg");
+    background-size: cover;
+    overflow: hidden;
+}
+
+/* #demen1{
+    height: 100px;
+}
+
+#harryGame {
+    position: absolute;
+    right: calc(50% - 60px);
+    bottom: 20px;
+    height: 100px;
+}
+
+#hermioneGame {
+    position: absolute;
+    height: 100px;
+}
+
+#ronaldGame {
+    position: absolute;
+    height: 100px;
+}
+
+#bullet {
+    position: absolute;
+    right: calc(50% - 10px);
+    bottom: 80px;
+    z-index: -1;
+
+    height: 10px;
+    width: 4px;
+
+    background-color: blue;
+} */

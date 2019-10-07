@@ -1,0 +1,79 @@
+.selectCharacters{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+}
+
+.selectHero {
+    font-size: 30px;
+    margin-bottom: 4vh;
+    color: white;
+}
+
+.heros{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    width: 100%;
+}
+
+.char1, .char2, .char3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: auto;
+    width: auto;
+
+    box-sizing: border-box;
+
+    font-size: 20px;
+    color: white;
+}
+
+.char1 {
+    background-color: red;
+    border: 2px solid red; 
+}
+.char2 {
+    background-color: blue;
+    border: 2px solid blue;
+}
+.char3 {
+    background-color: pink;
+    border: 2px solid pink;
+}
+
+.heroPic {
+    position: relative;
+
+    height: 200px;
+    width: 200px;
+
+    opacity: 1;
+}
+
+.startGame:hover {
+    opacity: 1;
+
+    height: 200px;
+    width: 200px;
+    color: goldenrod;
+}
+
+.startGame{
+    position: absolute;
+    opacity: 0;
+
+    height: 200px;
+    width: 200px;
+
+    border: 2px solid black;
+    background: transparent;
+
+    font-size: 40px;
+}

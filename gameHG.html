@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="game/style.css">
+    <link rel="stylesheet" href="game/game.css">
+    <title>Game</title>
+</head>
+<body>
+    <div id="scene" class="container"></div>
+
+    <script src="game.js"></script>
+    <script>
+        //L'ordre de définition des Sprites définie leur juxtaposition
+        //(comme si c'était un z-index) 
+        let patronus = new Sprite("img/patronus.png", 0, 0, 100);
+        patronus.display = "none";
+
+        let hg = new Sprite("img/hermioneGame.png", 620, 620, 80);
+        let dementor1 = new Sprite("img/dementor1.png", 100, 100, 100);
+        let dementor2 = new Sprite("img/dementor2.png", 300, 60, 100);
+        let dementor3 = new Sprite("img/dementor3.png", 500, 120, 100);
+
+        document.onkeydown = function(event) {
+            if (event.keyCode == 65) {  //déplacement haut/gauche
+                hg.left -= 10;
+                hg.top -= 10;
+            } else if (event.keyCode == 38) {  //haut
+                hg.top -= 10;
+            } else if (event.keyCode == 81) {  //haut/droite
+                hg.left += 10;
+                hg.top -= 10;
+            } else if (event.keyCode == 37) { //gauche
+                hg.left -= 10;
+            } else if (event.keyCode == 39) {  //droite
+                hg.left += 10;
+            } else if (event.keyCode == 40) {  //bas
+                hg.top += 10;
+            }
+
+            //On gère les collissions de hp sur l'axe des X
+            if (hg.left < 0) {
+                hg.left = 0;
+            }
+            if (hg.left > document.body.clientWidth - hg._node.width) {
+                hg.left = document.body.clientWidth - hg._node.width
+            }
+
+            //On gère les collissions de hp sur l'axe des Y
+            if (hg.top < 0) {
+                hg.top = 0;
+            }
+            if (hg.top > document.body.clientHeight - hg._node.height) {
+                hg.top = document.body.clientHeight - hg._node.height
+            }
+
+            //A faire: si la fenêtre est reSize, le vaisseau peut sortir de l'écran
+
+            //Déplacement patronus
+            if (event.keyCode == 32) {
+                if (patronus.display == "none") {
+                    patronus.display = "block";
+                    patronus.left = hg.left + (hg._node.width - patronus._node.width) / 2;
+                    patronus.top = hg.top;
+                    patronus.startAnimation(movePatronus, 20);
+                }
+            }
+
+            //STOP THE GAME
+            hg.startAnimation(stopGame, 0);
+        }
+
+        function stopGame(hg) {
+            //Collision Hero/Dementor
+            for(let i = 1; i <= 3; i++) {
+                let dementor = eval("dementor"+i);
+                if (dementor.display == "none") continue;
+                if (hg.checkCollision(dementor)) {
+                    dementor.stopAnimation();
+                    hg.display = "none";
+                    alert("Fin de la partie...les Détraqueurs ont volé ton âme Hermione");
+                    location.href = "index.html";
+                }
+            }
+        }
+
+        function movePatronus(patronus) {
+            patronus.top -= 10;
+            if (patronus.top < -40) {
+                patronus.stopAnimation();
+                patronus.display = "none";
+            }
+
+            //Collision Patronus/Dementor
+            for(let i = 1; i <= 3; i++) {
+                let dementor = eval("dementor"+i);
+                if (dementor.display == "none") continue;
+                if (patronus.checkCollision(dementor)) {
+                    patronus.stopAnimation();
+                    patronus.display = "none";
+                    dementor.stopAnimation();
+                    dementor.display = "none";
+                }
+            }
+        }
+
+        function moveDementorToDown(dementor) {
+            //vitesse de déplacement du détraqueur
+            dementor.top += Math.round(Math.random() * 2);
+
+            if(dementor.top > document.body.clientHeight - dementor._node.height) {
+                //A CHANGER
+                dementor.top = 0;
+                dementor.startAnimation( moveDementorToDown, 20);
+            }
+        }
+
+        //Pour un seul dementor
+        // dementor1.startAnimation(moveDementorToDown, 20);
+        // dementor2.startAnimation(moveDementorToDown, 20);
+        // dementor3.startAnimation(moveDementorToDown, 20);
+        //ou si les dementor sont plus nombreux
+        for (let i = 1; i<= 3; i++) {
+            eval("dementor"+ i).startAnimation(moveDementorToDown, 20);
+        }
+        </script>
+</body>
+</html>
